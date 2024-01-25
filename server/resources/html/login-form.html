@@ -1,0 +1,16 @@
+<form
+  class="login-form form"
+  action="/ajax/login.php"
+  method="get"
+  enctype="multipart/form-data"
+  onsuccess="location.reload()"
+>
+  <fieldset>
+    <legend class="header2">Авторизация</legend>
+    <label for="email">Электронная почта:</label>
+    <input id="email" type="email" name="email" /><br />
+    <label for="password">Пароля:</label>
+    <input id="password" type="password" name="password" /><br />
+    <button class="item-header" type="submit" disabled>Отправить</button>
+  </fieldset>
+</form>

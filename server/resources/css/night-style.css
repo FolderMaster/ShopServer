@@ -1,0 +1,156 @@
+:root {
+  --white: #d0d0d0;
+  --light-white: #f7f7f7;
+  --light-gray: #b3b3b3;
+  --gray: #5b5b5b;
+  --dark-gray: #232323;
+  --black: #181818;
+  --pink: #b38585;
+  --purpur: #a57070;
+  --purple: #8f5db6;
+  --violet: #6d399e;
+}
+
+* {
+  color: var(--white);
+  color-scheme: dark;
+}
+
+::selection {
+  background: var(--purple);
+  color: var(--light-white);
+}
+
+input {
+  accent-color: var(--purple);
+  caret-shape: bar;
+  caret-color: var(--violet);
+}
+
+body {
+  background-color: var(--dark-gray);
+}
+
+main {
+  background-color: var(--black);
+}
+
+header {
+  background-color: var(--violet);
+  border-bottom-color: var(--white);
+}
+
+#taskBar {
+  background-color: var(--dark-gray);
+  border-bottom-color: var(--gray);
+}
+
+footer.sticky {
+  background-color: var(--dark-gray);
+  border-top-color: var(--gray);
+}
+
+footer.relative {
+  background-color: var(--dark-gray);
+}
+
+.block {
+  background-color: var(--dark-gray);
+  border-color: var(--gray);
+}
+
+.cell {
+  border-color: var(--gray);
+}
+
+.row:nth-child(even) {
+  background-color: #5b5b5b4d;
+}
+
+.row:nth-child(odd) {
+  background-color: #2323234d;
+}
+
+.cell:nth-child(even) {
+  background-color: #5b5b5b4d;
+}
+
+.cell:nth-child(odd) {
+  background-color: #2323234d;
+}
+
+.tooltip-content {
+  background-color: var(--dark-gray);
+}
+
+nav.menu a {
+  background-color: var(--purpur);
+}
+
+nav.menu a:hover {
+  background-color: var(--pink);
+  border-color: var(--white);
+}
+
+nav.menu a[href],
+nav.menu button,
+nav.menu span {
+  background-color: var(--violet);
+}
+
+nav.menu a:hover[href],
+nav.menu button:hover,
+nav.menu span:hover {
+  background-color: var(--purple);
+  border-color: var(--white);
+  color: var(--light-white);
+}
+
+.icon-background {
+  background-color: var(--light-white);
+}
+
+ul.breadcrumb li span {
+  color: var(--light-gray);
+}
+
+ul.breadcrumb li a {
+  color: var(--light-white);
+}
+
+ul.breadcrumb li a[href] {
+  color: var(--white);
+}
+
+.highlighted {
+  background-color: var(--violet);
+  border-color: var(--white);
+}
+
+.interactive {
+  background-color: var(--violet);
+}
+
+.interactive:hover {
+  background-color: var(--purple);
+  border-color: var(--white);
+}
+
+.error {
+  background-color: #a44f3b;
+  border-color: #c46f48;
+}
+
+.success {
+  background-color: #546d50;
+  border-color: #8cac87;
+}
+
+.process {
+  background-color: #434c83;
+  border-color: #6077bb;
+}
+
+.background {
+  background-color: #2222224b;
+}
