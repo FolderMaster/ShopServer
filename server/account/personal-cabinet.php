@@ -1,25 +1,25 @@
 <?php
 
-require_once 'code/model/users/UserConfidentional.php';
-require_once 'code/model/users/UserProfile.php';
-require_once 'code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/UserConfidentional.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/UserProfile.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use Model\Users\UserConfidential;
 use Model\Users\UserProfile;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
+use function Control\ShowError;
 
 Authorize();
-if (!isset($pageData['User'])) {
-    require_once 'error.php';
-    die;
+if (!isset($pageData['UserId'])) {
+    ShowError();
 }
-$userId = $pageData['User'];
+$userId = $pageData['UserId'];
 $userProfile = new UserProfile($userId);
 $userConfidential = new UserConfidential($userId);
 $pageData['Title'] = 'Личный кабинет';
 $pageData['Breadcrumb'] = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <div class="list-layout tab-control">
     <div class="item table-layout center-layout">
@@ -102,4 +102,4 @@ require_once 'code/view/includes/header.php';
         </div>
     </div>
 </div>
-<?php require_once 'code/view/includes/footer.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

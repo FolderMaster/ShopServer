@@ -2,8 +2,8 @@
 
 namespace Model\Items\Characteristics;
 
-require_once 'code/control/DataBaseConnection.php';
-require_once 'code/model/items/characteristics/Unit.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/characteristics/Unit.php';
 
 use const Control\DataBaseConnection;
 use \Exception;

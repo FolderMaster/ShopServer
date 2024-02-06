@@ -1,11 +1,11 @@
 <?php
 
-require_once 'code/view/components/ItemComponent.php';
-require_once 'code/model/users/FavoritesManager.php';
-require_once 'code/model/users/CartManager.php';
-require_once 'code/model/items/ItemPriceManager.php';
-require_once 'code/model/items/StoredItemManager.php';
-require_once 'code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/ItemComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/FavoritesManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/CartManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemPriceManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/StoredItemManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use Model\Users\FavoritesManager;
 use Model\Users\CartManager;
@@ -14,16 +14,16 @@ use Model\Items\StoredItemManager;
 use Model\Items\ItemPriceManager;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
+use function Control\ShowError;
 
 Authorize();
-if (!isset($pageData['User'])) {
-    require_once 'error.php';
-    die;
+if (!isset($pageData['UserId'])) {
+    ShowError();
 }
-$userId = $pageData['User'];
+$userId = $pageData['UserId'];
 $pageData['Title'] = 'Корзина';
 $pageData['Breadcrumb'] = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <form class="process-order-form form" action="/ajax/processOrderItemSets.php" method="get" enctype="multipart/form-data" onsuccess="location.reload()">
     <div class="list-layout">
@@ -78,6 +78,6 @@ require_once 'code/view/includes/header.php';
         <?php } ?>
     </div>
     <label class="header2" for="totalCost">Итоговая цена:</label> <input class="hidden-as-text header2" id="totalCost" name="totalCost" readonly value="<?= $totalPrice ?>" /> <br />
-    <input class="interactive item-header" type="submit" value="Оформить" />
+    <input class="interactive item-header" type="submit" name="process-order-button" <?= $totalPrice == 0 ? 'disabled="true"' : '' ?> value="Оформить" />
 </form>
-<?php require_once 'code/view/includes/footer.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

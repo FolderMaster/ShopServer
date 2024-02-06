@@ -1,12 +1,12 @@
 <?php
 
-require_once 'code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use function Control\Authorize;
 
 Authorize();
 $pageData['Title'] = 'Главная';
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <p class="header3">
     Веб-сайт интернет-магазина, в котором продаётся бесчисленное количество товаров
@@ -19,4 +19,4 @@ require_once 'code/view/includes/header.php';
     <dt>Адрес:
     <dd>улица Пушкина, дом Колотушкино
 </dl>
-<?php require_once 'code/view/includes/footer.php' ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php' ?>

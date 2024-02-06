@@ -2,8 +2,8 @@
 
 namespace View\Components\Menu;
 
-require_once 'code/view/components/IComponent.php';
-require_once 'code/view/components/tags/pair/containers/ListTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/IComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/containers/ListTag.php';
 
 use View\Components\IComponent;
 use View\Components\Tags\Pair\Containers\ListTag;

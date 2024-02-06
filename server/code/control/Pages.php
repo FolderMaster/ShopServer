@@ -2,14 +2,14 @@
 
 namespace Control;
 
-require_once 'code/model/users/UserManager.php';
-require_once 'code/view/components/breadcrumb/Breadcrumb.php';
-require_once 'code/view/components/menu/Menu.php';
-require_once 'code/view/components/menu/LinkMenuItem.php';
-require_once 'code/view/components/menu/ButtonMenuItem.php';
-require_once 'code/view/components/menu/TitleMenuItem.php';
-require_once 'code/view/components/contents/ImageComponent.php';
-require_once 'code/view/components/contents/TextComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/UserManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/breadcrumb/Breadcrumb.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/menu/Menu.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/menu/LinkMenuItem.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/menu/ButtonMenuItem.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/menu/TitleMenuItem.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/contents/ImageComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/contents/TextComponent.php';
 
 use \Exception;
 use Model\Users\UserManager;
@@ -20,6 +20,16 @@ use View\Components\Menu\ButtonMenuItem;
 use View\Components\Menu\TitleMenuItem;
 use View\Components\Contents\ImageComponent;
 use View\Components\Contents\TextComponent;
+
+function GetMainUrl(): string
+{
+    return sprintf(
+        "%s://%s%s",
+        isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+        $_SERVER['SERVER_NAME'],
+        $_SERVER['SERVER_PORT'] ? ':' . $_SERVER['SERVER_PORT'] : ''
+    );
+}
 
 function Authorize(): void
 {
@@ -39,9 +49,21 @@ function Authorize(): void
         $userId = UserManager::getUserId($email, $password);
         if (isset($userId)) {
             global $pageData;
-            $pageData['User'] = $userId;
+            $pageData['UserId'] = $userId;
         }
     }
+}
+
+function ShowError(
+    ?string $title = null,
+    ?string $descrition = null,
+    ?int $statusCode = null
+): void {
+    $errorData['Title'] = $title;
+    $errorData['Description'] = $descrition;
+    $errorData['StatusCode'] = $statusCode;
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/error.php';
+    die;
 }
 
 function GetBreadcrumb(string $scriptPath): Breadcrumb
@@ -71,7 +93,7 @@ function GetBreadcrumb(string $scriptPath): Breadcrumb
 
 function GetInfo(string $path, ?string $scriptName = null): mixed
 {
-    $infoPath = $path . 'info.php';
+    $infoPath = $_SERVER['DOCUMENT_ROOT'] . '/' . $path . 'info.php';
     if (file_exists($infoPath)) {
         include $infoPath;
         return $info;
@@ -90,27 +112,27 @@ function GetMainMenu(): Menu
         new LinkMenuItem(new TextComponent('Магазин'), '/shop/', [], [], [
             new LinkMenuItem(
                 new TextComponent('Электроника'),
-                '/shop/section.php?1',
+                '/shop/section.php?id=1',
                 [],
                 [],
                 [
                     new LinkMenuItem(
                         new TextComponent('Периферия'),
-                        '/shop/section.php?2',
+                        '/shop/section.php?id=2',
                         [],
                         [],
                         [
                             new LinkMenuItem(
                                 new TextComponent('Наушники'),
-                                '/shop/section.php?3'
+                                '/shop/section.php?id=3'
                             ),
                             new LinkMenuItem(
                                 new TextComponent('Клавиатуры'),
-                                '/shop/section.php?4'
+                                '/shop/section.php?id=4'
                             ),
                             new LinkMenuItem(
                                 new TextComponent('Компьютерные мыши'),
-                                '/shop/section.php?5'
+                                '/shop/section.php?id=5'
                             )
                         ]
                     ),

@@ -2,8 +2,8 @@
 
 namespace Model\Users;
 
-require_once 'code/model/items/ItemSet.php';
-require_once 'code/control/DataBaseConnection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemSet.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
 
 use Model\Items\ItemSet;
 use const Control\DataBaseConnection;

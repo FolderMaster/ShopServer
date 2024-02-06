@@ -2,8 +2,8 @@
 
 namespace View\Components;
 
-require_once 'code/view/components/IComponent.php';
-require_once 'code/model/items/Section.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/IComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/Section.php';
 
 use Model\Items\Section;
 
@@ -24,12 +24,12 @@ class SectionComponent implements IComponent
     public function render(): void
     {
         if ($this->isShort) { ?>
-            <div class="item item-header highlighted">
+            <div class="item item-header interactive">
                 <a class="item-link" href="<?= $this->section->getUrl() ?>"><?= $this->section->getName() ?></a>
             </div>
         <?php } else { ?>
             <div class="item">
-                <div class="item-header highlighted">
+                <div class="item-header interactive">
                     <a class="item-link" href="<?= $this->section->getUrl() ?>"><?= $this->section->getName() ?></a>
                 </div>
                 <div class="item-content block table-layout center-layout">

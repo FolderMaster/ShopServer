@@ -2,7 +2,7 @@
 
 namespace View\Components\Tags\Pair\Containers;
 
-require_once 'code/view/components/tags/pair/containers/BaseSpecialContainerTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/containers/BaseSpecialContainerTag.php';
 
 class ListTag extends BaseSpecialContainerTag
 {

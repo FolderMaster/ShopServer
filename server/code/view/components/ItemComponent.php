@@ -2,8 +2,8 @@
 
 namespace View\Components;
 
-require_once 'code/model/items/Item.php';
-require_once 'code/view/components/IComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/Item.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/IComponent.php';
 
 use Model\Items\Item;
 
@@ -48,7 +48,7 @@ class ItemComponent implements IComponent
         $characteristicText = join(', ', $characteristicParts);
 ?>
         <div class="item" item-id="<?= $this->item->getId() ?>">
-            <div class="item-header highlighted">
+            <div class="item-header interactive">
                 <a class="item-link" href="<?= $this->item->getUrl() ?>"><?= $this->item->getName() ?></a>
             </div>
             <div class="item-content block table-layout">

@@ -1,12 +1,12 @@
 <?php
-require_once 'code/view/components/SectionComponent.php';
-require_once 'code/view/components/ItemComponent.php';
-require_once 'code/model/items/ItemPriceManager.php';
-require_once 'code/model/items/StoredItemManager.php';
-require_once 'code/model/items/characteristics/Property.php';
-require_once 'code/model/users/CartManager.php';
-require_once 'code/model/users/FavoritesManager.php';
-require_once 'code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/SectionComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/ItemComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemPriceManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/StoredItemManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/characteristics/Property.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/CartManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/FavoritesManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use Model\Items\Characteristics\Characteristic;
 use Model\Items\Characteristics\Property;
@@ -22,21 +22,25 @@ use Model\Users\FavoritesManager;
 use Model\Users\CartManager;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
+use function Control\ShowError;
 
 Authorize();
-if (count($_GET) != 1) {
-    require_once 'error.php';
-    die;
+if (!isset($_GET['id'])) {
+    ShowError();
 }
-$queryKey = array_key_first($_GET);
-if (!is_numeric($queryKey)) {
-    require_once 'error.php';
-    die;
+$id = $_GET['id'];
+if (!is_numeric($id)) {
+    ShowError();
 }
-$sectionId = (int)$queryKey;
+$sectionId = (int)$id;
+if (!Section::checkId($sectionId)) {
+    ShowError();
+}
 
 $breadcrumb = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
-$childBranch = array_reverse(Section::getSectionsBranchByChildSectionId($sectionId));
+$childBranch = array_reverse(
+    Section::getSectionsBranchByChildSectionId($sectionId)
+);
 $breadcrumbItems = [];
 foreach ($childBranch as $branchSection) {
     $breadcrumbItems[] = new BreadcrumbItem(
@@ -57,16 +61,16 @@ foreach ($parentBranch as $sectionId) {
         Item::getItemsBySectionId($sectionId)
     );
 }
-if (isset($pageData['User'])) {
-    $userId = $pageData['User'];
+if (isset($pageData['UserId'])) {
+    $userId = $pageData['UserId'];
 }
 $pageData['Title'] = $section->getName();
 $pageData['Breadcrumb'] = $breadcrumb;
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <?php if (count($sections) > 0) { ?>
     <div>
-        <p class="header2">Подразделы: </p>
+        <p class="header2">Подразделы:</p>
         <div class="table-layout section-grids">
             <?php foreach ($sections as $section) {
                 echo (new SectionComponent($section, true))->render();
@@ -74,13 +78,60 @@ require_once 'code/view/includes/header.php';
         </div>
     </div>
 <?php }
-if (count($items) > 0) {
-?>
-    <div class="item-header block">
-        <button onclick="$('.list-layout').toggleClass('table-layout');">
-            <img class="small-icon" src="/resources/images/change.png" />
-        </button>
-    </div>
+if (count($items) > 0) { ?>
+    <form>
+        <div class="item-header highlighted block">
+            <button onclick="$('.search-panel').toggle();">
+                <img class="small-icon" src="/resources/images/show.png" />
+            </button>
+            <button onclick="$('.list-layout').toggleClass('table-layout');">
+                <img class="small-icon" src="/resources/images/change.png" />
+            </button>
+            <div class="right-float">
+                <input type="search" />
+                <button>
+                    <img class="small-icon" src="/resources/images/search.png" />
+                </button>
+            </div>
+        </div>
+        <div class="block search-panel">
+            <?php foreach ($childBranch as $branchSection) {
+                $characteristics = Characteristic::getCharacteristicsBySectionId($branchSection->getId());
+                if (count($characteristics) > 0) { ?>
+                    <fieldset class="table-layout">
+                        <legend><?= $branchSection->getName() ?></legend>
+                        <?php foreach ($characteristics as $characteristic) {
+                            $property = new Property($characteristic->getPropertyId());
+                            $type = '';
+                            switch ($property->getType()) {
+                                case 'Real':
+                                case 'Interger':
+                                    $type = 'number';
+                                    break;
+                                case 'Date':
+                                    $type = 'date';
+                                    break;
+                                case 'String':
+                                    $type = 'text';
+                                    break;
+                            }
+                            $units = $property->getUnits();
+                        ?>
+                            <label><?= $characteristic->getName() ?></label>
+                            <input name="<?= $characteristic->getId() ?>" type="<?= $type ?>" />
+                            <?php if (count($units) > 0) { ?>
+                                <select>
+                                    <?php foreach ($units as $unit) { ?>
+                                        <option value="<?= $unit->getId() ?>"><?= $unit->getName() ?></option>
+                                    <?php } ?>
+                                </select>
+                        <?php }
+                        } ?>
+                    </fieldset>
+            <?php }
+            } ?>
+        </div>
+    </form>
     <div class="item-content block list-layout item-grids">
         <?php foreach ($items as $item) {
             $itemId = $item->getId();
@@ -105,5 +156,5 @@ if (count($items) > 0) {
     </div>
 <?php
 }
-require_once 'code/view/includes/footer.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php';
 ?>

@@ -1,8 +1,8 @@
 <?php
-require_once 'code/control/Pages.php';
-require_once 'code/model/orders/Order.php';
-require_once 'code/model/items/ItemPriceManager.php';
-require_once 'code/view/components/ItemComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/orders/Order.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemPriceManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/ItemComponent.php';
 
 use Model\Items\ItemPriceManager;
 use Model\Orders\Order;
@@ -10,22 +10,23 @@ use Model\Items\Item;
 use View\Components\ItemComponent;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
+use function Control\ShowError;
 
 Authorize();
-if (!isset($pageData['User'])) {
-    require_once 'error.php';
-    die;
+if (!isset($pageData['UserId'])) {
+    ShowError();
 }
-$userId = $pageData['User'];
+$userId = $pageData['UserId'];
 $orders = Order::getOrdersByUserId($userId);
 $pageData['Title'] = 'Заказы';
 $pageData['Breadcrumb'] = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <div class="list-layout">
     <?php
     foreach ($orders as $order) {
         $status = $order->getLastStatus();
+        $orderProcessStatus = null;
         $statusClass = $status;
         switch ($status) {
             case 'Оформление':
@@ -48,7 +49,9 @@ require_once 'code/view/includes/header.php';
     ?>
         <div class="accordion item">
             <div class="accordion-header header2 <?= $statusClass ?>">
-                Заказ №<?= $order->getId() ?> (<?= $status ?>)
+                <a class="item-link" href="<?= $order->getUrl() ?>">
+                    Заказ №<?= $order->getId() ?> (<?= $status ?>)
+                </a>
                 <div class="right-float header2">
                     <?= $order->getLastDate()->format('d.m.Y') ?>
                 </div>
@@ -73,4 +76,4 @@ require_once 'code/view/includes/header.php';
         </div>
     <?php } ?>
 </div>
-<?php require_once 'code/view/includes/footer.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

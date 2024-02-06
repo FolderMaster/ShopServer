@@ -1,8 +1,8 @@
 <?php
 
-require_once 'code/control/Ajax.php';
-require_once 'code/model/users/UserManager.php';
-require_once 'code/model/orders/Order.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Ajax.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/UserManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/orders/Order.php';
 
 use Model\Users\UserManager;
 use Model\Orders\Order;

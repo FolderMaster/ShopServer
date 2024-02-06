@@ -149,6 +149,8 @@ function calculateTotalCost() {
     totalCost += costs[i] * counts[i];
   }
   $('input[name="totalCost"]').val(totalCost);
+  var enable = totalCost > 0;
+  $('input[name="process-order-button"]').prop("disabled", !enable);
 }
 
 function clickButtonEvent(e) {

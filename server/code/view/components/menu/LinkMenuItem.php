@@ -2,8 +2,8 @@
 
 namespace View\Components\Menu;
 
-require_once 'code/view/components/menu/BaseMenuItem.php';
-require_once 'code/view/components/tags/pair/elements/LinkTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/menu/BaseMenuItem.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/elements/LinkTag.php';
 
 use View\Components\IComponent;
 use View\Components\Tags\Pair\Elements\LinkTag;

@@ -2,7 +2,7 @@
 
 namespace Model;
 
-require_once 'code/control/DataBaseConnection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
 
 use const Control\DataBaseConnection;
 use \Exception;

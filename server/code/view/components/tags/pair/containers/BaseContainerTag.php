@@ -2,8 +2,8 @@
 
 namespace View\Components\Tags\Pair\Containers;
 
-require_once 'code/view/components/IComponent.php';
-require_once 'code/view/components/tags/pair/BasePairTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/IComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/BasePairTag.php';
 
 use View\Components\IComponent;
 use View\Components\Tags\Pair\BasePairTagCreator;

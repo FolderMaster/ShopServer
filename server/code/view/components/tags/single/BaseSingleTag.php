@@ -2,8 +2,8 @@
 
 namespace View\Components\Tags\Single;
 
-require_once 'code/view/components/IComponent.php';
-require_once 'code/view/components/tags/BaseTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/IComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/BaseTag.php';
 
 use View\Components\IComponent;
 use View\Components\Tags\BaseTag;

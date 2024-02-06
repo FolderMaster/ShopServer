@@ -2,8 +2,8 @@
 
 namespace Model\Orders;
 
-require_once 'code/model/items/ItemSet.php';
-require_once 'code/control/DataBaseConnection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemSet.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
 
 use Model\Items\ItemSet;
 use const Control\DataBaseConnection;
@@ -55,6 +55,16 @@ class Order
         while ($row = $statement->fetch()) {
             $this->history[$row['StartDateTime']] = $row['OrderStatus'];
         }
+    }
+
+    public static function checkId(int $id, int $userId): bool
+    {
+        $statement = DataBaseConnection->prepare('SELECT 1 FROM Orders 
+        WHERE Id = :id AND UserId = :userId');
+        $statement->bindValue(':id', $id);
+        $statement->bindValue(':userId', $userId);
+        $statement->execute();
+        return $statement->rowCount() > 0;
     }
 
     public static function getOrdersByUserId(int $userId): array
@@ -170,5 +180,10 @@ class Order
         $statement->closeCursor();
         DataBaseConnection->commit();
         return true;
+    }
+
+    public function getUrl(): string
+    {
+        return "/account/order.php?id=$this->id";
     }
 }

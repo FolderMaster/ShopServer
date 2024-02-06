@@ -1,21 +1,21 @@
 <?php
 
-require_once 'code/model/users/paymentMethods/BankCard.php';
-require_once 'code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/paymentMethods/BankCard.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use Model\Users\PaymentMethods\BankCard;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
+use function Control\ShowError;
 
 Authorize();
-if (!isset($pageData['User'])) {
-    require_once 'error.php';
-    die;
+if (!isset($pageData['UserId'])) {
+    ShowError();
 }
-$userId = $pageData['User'];
+$userId = $pageData['UserId'];
 $pageData['Title'] = 'Методы оплаты';
 $pageData['Breadcrumb'] = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <div class="tab-control">
     <div class="table-layout">
@@ -38,7 +38,8 @@ require_once 'code/view/includes/header.php';
                     <div><?= $bankCard->getCvc() ?></div>
                 </div>
             <?php } ?>
+            <button class="interactive item-header" type="submit">Добавить карту</button>
         </div>
     </div>
 </div>
-<?php require_once 'code/view/includes/footer.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

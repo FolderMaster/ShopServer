@@ -2,7 +2,7 @@
 
 namespace View\Components\Tags\Pair\Elements;
 
-require_once 'code/view/components/tags/pair/elements/BaseElementTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/elements/BaseElementTag.php';
 
 use View\Components\IComponent;
 

@@ -2,8 +2,8 @@
 
 namespace Model\Items;
 
-require_once 'code/model/File.php';
-require_once 'code/control/DataBaseConnection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/File.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
 
 use const Control\DataBaseConnection;
 use Model\File;
@@ -41,6 +41,15 @@ class Section
         } else {
             throw new Exception('Fail to load section ' . $this->id);
         }
+    }
+
+    public static function checkId(int $id): bool
+    {
+        $statement = DataBaseConnection->prepare('SELECT 1 FROM Sections 
+        WHERE Id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->rowCount() > 0;
     }
 
     public static function getSectionsByParentSectionId(
@@ -93,6 +102,7 @@ class Section
         SELECT Id FROM SectionsByChildSectionId');
         $statement->bindValue(':childSectionId', $childSectionId);
         $statement->execute();
+        $result = [];
         while ($row = $statement->fetch()) {
             $result[] = new Section($row['Id']);
         }
@@ -126,6 +136,6 @@ class Section
 
     public function getUrl(): string
     {
-        return '/shop/section.php?' . $this->id;
+        return "/shop/section.php?id=$this->id";
     }
 }

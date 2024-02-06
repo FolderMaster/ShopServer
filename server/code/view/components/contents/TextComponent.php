@@ -2,7 +2,7 @@
 
 namespace View\Components\Contents;
 
-require_once 'code/view/components/IComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/IComponent.php';
 
 use View\Components\IComponent;
 

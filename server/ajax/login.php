@@ -1,7 +1,7 @@
 <?php
 
-require_once 'code/control/Ajax.php';
-require_once 'code/model/users/UserManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Ajax.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/UserManager.php';
 
 use Model\Users\UserManager;
 use function Control\SendResponse;

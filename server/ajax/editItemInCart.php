@@ -1,8 +1,8 @@
 <?php
 
-require_once 'code/control/Ajax.php';
-require_once 'code/model/users/UserManager.php';
-require_once 'code/model/users/CartManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Ajax.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/UserManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/CartManager.php';
 
 use Model\Users\UserManager;
 use Model\Users\CartManager;

@@ -2,9 +2,9 @@
 
 namespace Model\Items;
 
-require_once 'code/control/DataBaseConnection.php';
-require_once 'code/model/File.php';
-require_once 'code/model/items/characteristics/ItemCharacteristic.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/File.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/characteristics/ItemCharacteristic.php';
 
 use Model\Items\Characteristics\ItemCharacteristic;
 use Model\File;
@@ -67,6 +67,15 @@ class Item
         }
     }
 
+    public static function checkId(int $id): bool
+    {
+        $statement = DataBaseConnection->prepare('SELECT 1 FROM Items 
+        WHERE Id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->rowCount() > 0;
+    }
+
     public static function getItemsBySectionId(int $sectionId): array
     {
         $result = DataBaseConnection->prepare('SELECT Id FROM Items 
@@ -117,6 +126,6 @@ class Item
 
     public function getUrl(): string
     {
-        return '/shop/item.php?' . $this->id;
+        return "/shop/item.php?id=$this->id";
     }
 }

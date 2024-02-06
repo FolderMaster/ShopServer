@@ -2,7 +2,7 @@
 
 namespace View\Components\Contents;
 
-require_once 'code/view/components/tags/single/BaseSingleTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/single/BaseSingleTag.php';
 
 use View\Components\Tags\Single\BaseSingleTag;
 

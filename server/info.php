@@ -1,7 +1,7 @@
 <?php
 
-require_once 'code/view/components/breadcrumb/BreadcrumbItem.php';
-require_once 'code/view/components/contents/ImageComponent.php';
+require_once  'code/view/components/breadcrumb/BreadcrumbItem.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/contents/ImageComponent.php';
 
 use View\Components\Breadcrumb\BreadcrumbItem;
 use View\Components\Contents\ImageComponent;

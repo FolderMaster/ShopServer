@@ -1,7 +1,7 @@
 <?php
 
-require_once 'code/view/components/breadcrumb/BreadcrumbItem.php';
-require_once 'code/view/components/contents/TextComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/breadcrumb/BreadcrumbItem.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/contents/TextComponent.php';
 
 use View\Components\Breadcrumb\BreadcrumbItem;
 use View\Components\Contents\TextComponent;
@@ -28,6 +28,15 @@ switch ($scriptName) {
             new TextComponent('Корзина'),
             '/account/cart.php'
         );
+        break;
+    case 'order-delivery.php':
+        $info = new BreadcrumbItem(new TextComponent('Доставка заказа'));
+        break;
+    case 'order-payment.php':
+        $info = new BreadcrumbItem(new TextComponent('Оплата заказа'));
+        break;
+    case 'order.php':
+        $info = new BreadcrumbItem(new TextComponent('Заказ'));
         break;
     case 'orders.php':
         $info = new BreadcrumbItem(

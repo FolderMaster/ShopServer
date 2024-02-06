@@ -1,6 +1,6 @@
 <?php
 
-require_once 'code/control/Ajax.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Ajax.php';
 
 use function Control\SendResponse;
 

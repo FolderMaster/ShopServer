@@ -1,13 +1,13 @@
 <?php
 
-require_once 'code/model/items/Item.php';
-require_once 'code/model/items/Section.php';
-require_once 'code/model/items/ItemPriceManager.php';
-require_once 'code/model/items/StoredItemManager.php';
-require_once 'code/model/users/CartManager.php';
-require_once 'code/model/users/FavoritesManager.php';
-require_once 'code/view/components/ItemComponent.php';
-require_once 'code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/Item.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/Section.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemPriceManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/StoredItemManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/CartManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/FavoritesManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/ItemComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use Model\Items\Item;
 use Model\Items\Section;
@@ -19,28 +19,30 @@ use View\Components\Breadcrumb\BreadcrumbItem;
 use View\Components\Contents\TextComponent;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
+use function Control\ShowError;
 
 Authorize();
-if (count($_GET) != 1) {
-    require_once 'error.php';
-    die;
+if (!isset($_GET['id'])) {
+    ShowError();
 }
-$queryKey = array_key_first($_GET);
-if (!is_numeric($queryKey)) {
-    require_once 'error.php';
-    die;
+$id = $_GET['id'];
+if (!is_numeric($id)) {
+    ShowError();
 }
-$itemId = (int)$queryKey;
+$itemId = (int)$id;
+if (!Item::checkId($itemId)) {
+    ShowError();
+}
 
 $item = new Item($itemId);
-if (isset($pageData['User'])) {
-    $userId = $pageData['User'];
+if (isset($pageData['UserId'])) {
+    $userId = $pageData['UserId'];
 }
 $price = ItemPriceManager::getItemPrice($itemId, 1);
 $count = StoredItemManager::getCountOfItem($itemId);
 $cartCount = 0;
 $isInFavorites = false;
-if ($userId) {
+if (isset($userId)) {
     $isInFavorites = FavoritesManager::checkItem($userId, $itemId);
     $cartCount = CartManager::getItemCount($userId, $itemId);
 }
@@ -62,7 +64,7 @@ $breadcrumb->addItems($breadcrumbItems);
 $breadcrumb->addItems([new BreadcrumbItem(new TextComponent($item->getName()), $item->getUrl())]);
 $pageData['HeaderVisible'] = false;
 $pageData['Title'] = $item->getName();
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <div class="list-layout">
     <div class="item" item-id="<?= $itemId ?>">
@@ -145,4 +147,4 @@ require_once 'code/view/includes/header.php';
         </div>
     </div>
 </div>
-<?php require_once 'code/view/includes/footer.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

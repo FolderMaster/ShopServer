@@ -1,11 +1,11 @@
 <?php
 
-require_once 'code/view/components/ItemComponent.php';
-require_once 'code/model/users/FavoritesManager.php';
-require_once 'code/model/users/CartManager.php';
-require_once 'code/model/items/ItemPriceManager.php';
-require_once 'code/model/items/StoredItemManager.php';
-require_once 'code/control/Pages.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/ItemComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/FavoritesManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/CartManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemPriceManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/StoredItemManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use View\Components\ItemComponent;
 use Model\Items\Item;
@@ -15,16 +15,16 @@ use Model\Items\StoredItemManager;
 use Model\Items\ItemPriceManager;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
+use function Control\ShowError;
 
 Authorize();
-if (!isset($pageData['User'])) {
-    require_once 'error.php';
-    die;
+if (!isset($pageData['UserId'])) {
+    ShowError();
 }
-$userId = $pageData['User'];
+$userId = $pageData['UserId'];
 $pageData['Title'] = 'Избранное';
 $pageData['Breadcrumb'] = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
-require_once 'code/view/includes/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
 <div class="list-layout">
     <?php foreach (FavoritesManager::getItems($userId) as $itemId) { ?>
@@ -37,4 +37,4 @@ require_once 'code/view/includes/header.php';
         ))->render(); ?>
     <?php } ?>
 </div>
-<?php require_once 'code/view/includes/footer.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

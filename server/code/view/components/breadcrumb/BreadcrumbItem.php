@@ -2,9 +2,9 @@
 
 namespace View\Components\Breadcrumb;
 
-require_once 'code/view/components/IComponent.php';
-require_once 'code/view/components/tags/pair/elements/LinkTag.php';
-require_once 'code/view/components/tags/pair/elements/SpanTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/IComponent.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/elements/LinkTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/elements/SpanTag.php';
 
 use View\Components\IComponent;
 use View\Components\Tags\Pair\Elements\LinkTag;

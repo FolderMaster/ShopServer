@@ -2,8 +2,8 @@
 
 namespace View\Components\Menu;
 
-require_once 'code/view/components/menu/BaseMenuItem.php';
-require_once 'code/view/components/tags/pair/elements/SpanTag.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/menu/BaseMenuItem.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/tags/pair/elements/SpanTag.php';
 
 use View\Components\IComponent;
 use View\Components\Tags\Pair\Elements\SpanTag;
