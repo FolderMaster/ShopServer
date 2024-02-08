@@ -36,5 +36,4 @@ $pageData['Title'] = "Заказ №$orderId";
 $pageData['Breadcrumb'] = $breadcrumb;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
-<div></div>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

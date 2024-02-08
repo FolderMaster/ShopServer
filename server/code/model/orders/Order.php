@@ -10,6 +10,22 @@ use const Control\DataBaseConnection;
 use \Exception;
 use \DateTime;
 
+const RegiserOrderStatus = 'Оформление';
+const ProcessingOrderStatus = 'Обработка';
+const PaymentOrderStatus = 'Оплата';
+
+const DeliveryOrderStatus = 'Доставка';
+const SendingOrderStatus = 'Отправка';
+
+const WaitingOrderStatus = 'Ожидание';
+
+const CancelOrderStatus = 'Отмена';
+const RefusalOrderStatus = 'Отказ';
+
+const ReturnOrderStatus = 'Возврат';
+
+const CompletionOrderStatus = 'Завершение';
+
 class Order
 {
     protected int $id;
@@ -35,7 +51,7 @@ class Order
         if ($row = $statement->fetch()) {
             $this->userId = $row['UserId'];
         } else {
-            throw new Exception('Fail to load order ' . $this->id);
+            throw new Exception("Fail to load order $this->id");
         }
 
         $statement = DataBaseConnection->prepare('SELECT * FROM OrderItemSets 
@@ -98,7 +114,7 @@ class Order
     public function getPaymentDateTime(): DateTime | null
     {
         foreach ($this->history as $key => $value) {
-            if ($value == 'Оплата') {
+            if ($value == PaymentOrderStatus) {
                 return new DateTime($key);
             }
         }
@@ -170,7 +186,7 @@ class Order
 
         $statement = DataBaseConnection->prepare('INSERT INTO OrderHistories 
         (OrderId, OrderStatus) VALUES (@id, :orderStatus)');
-        $statement->bindValue(':orderStatus', 'Оформление');
+        $statement->bindValue(':orderStatus', RegiserOrderStatus);
         $statement->execute();
         if ($statement->rowCount() == 0) {
             $statement->closeCursor();

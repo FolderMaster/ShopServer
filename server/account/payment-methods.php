@@ -38,7 +38,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
                     <div><?= $bankCard->getCvc() ?></div>
                 </div>
             <?php } ?>
-            <button class="interactive item-header" type="submit">Добавить карту</button>
+            <button class="interactive item-header" type="submit">
+                Добавить карту
+            </button>
         </div>
     </div>
 </div>

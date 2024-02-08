@@ -1,19 +1,21 @@
 <?php
 
-namespace Model;
+namespace Model\Storages;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
 
 use const Control\DataBaseConnection;
 use \Exception;
 
-class File
+class Storage
 {
     protected int $id;
 
     protected string $name;
 
-    protected ?string $source;
+    protected ?string $description;
+
+    protected string $address;
 
     public function __construct(int $id)
     {
@@ -23,15 +25,16 @@ class File
 
     private function load(): void
     {
-        $statement = DataBaseConnection->prepare('SELECT Source, Name 
-        FROM Files WHERE Id = :id');
+        $statement = DataBaseConnection->prepare('SELECT * FROM Storages 
+        WHERE Id = :id');
         $statement->bindValue(':id', $this->id);
         $statement->execute();
         if ($row = $statement->fetch()) {
-            $this->source = $row['Source'];
             $this->name = $row['Name'];
+            $this->description = $row['Description'];
+            $this->address = $row['Address'];
         } else {
-            throw new Exception("Fail to load file $this->id");
+            throw new Exception("Fail to storage $this->id");
         }
     }
 
@@ -40,13 +43,18 @@ class File
         return $this->id;
     }
 
-    public function getSource(): ?string
-    {
-        return $this->source;
-    }
-
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function getAddress(): string
+    {
+        return $this->address;
     }
 }

@@ -44,7 +44,7 @@ class UserConfidential
             $this->address = $row['Role'];
             $this->address = $row['Priority'];
         } else {
-            throw new Exception('Fail to load user confidential ' . $this->userId);
+            throw new Exception("Fail to load user confidential $this->userId");
         }
     }
 

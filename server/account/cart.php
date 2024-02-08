@@ -3,15 +3,15 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/ItemComponent.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/FavoritesManager.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/users/CartManager.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemPriceManager.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/StoredItemManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/prices/ItemPriceManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/storages/StoredItemManager.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 
 use Model\Users\FavoritesManager;
 use Model\Users\CartManager;
 use Model\Items\Item;
-use Model\Items\StoredItemManager;
-use Model\Items\ItemPriceManager;
+use Model\Storages\StoredItemManager;
+use Model\Items\Prices\ItemPriceManager;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
 use function Control\ShowError;

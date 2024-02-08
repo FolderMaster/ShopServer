@@ -40,7 +40,7 @@ class BankCard
             $this->cardholderName = $row['CardholderName'];
             $this->cvc = $row['Cvc'];
         } else {
-            throw new Exception('Fail to load bank card ' . $this->id);
+            throw new Exception("Fail to load bank card $this->id");
         }
     }
 

@@ -1,11 +1,21 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/orders/Order.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/ItemPriceManager.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/prices/ItemPriceManager.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/components/ItemComponent.php';
 
-use Model\Items\ItemPriceManager;
+use Model\Items\Prices\ItemPriceManager;
 use Model\Orders\Order;
+use const Model\Orders\RegiserOrderStatus;
+use const Model\Orders\ProcessingOrderStatus;
+use const Model\Orders\PaymentOrderStatus;
+use const Model\Orders\DeliveryOrderStatus;
+use const Model\Orders\SendingOrderStatus;
+use const Model\Orders\WaitingOrderStatus;
+use const Model\Orders\CancelOrderStatus;
+use const Model\Orders\RefusalOrderStatus;
+use const Model\Orders\ReturnOrderStatus;
+use const Model\Orders\CompletionOrderStatus;
 use Model\Items\Item;
 use View\Components\ItemComponent;
 use function Control\Authorize;
@@ -29,20 +39,20 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
         $orderProcessStatus = null;
         $statusClass = $status;
         switch ($status) {
-            case 'Оформление':
-            case 'Обработка':
-            case 'Оплата':
-            case 'Отправка':
-            case 'Ожидание':
-            case 'Доставка':
+            case RegiserOrderStatus:
+            case ProcessingOrderStatus:
+            case PaymentOrderStatus:
+            case DeliveryOrderStatus:
+            case SendingOrderStatus:
+            case WaitingOrderStatus:
                 $statusClass = 'process';
                 break;
-            case 'Отмена':
-            case 'Возврат':
-            case 'Отказ':
+            case CancelOrderStatus:
+            case RefusalOrderStatus:
+            case ReturnOrderStatus:
                 $statusClass = 'error';
                 break;
-            case 'Завершение':
+            case CompletionOrderStatus:
                 $statusClass = 'success';
                 break;
         }

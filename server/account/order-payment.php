@@ -1,8 +1,11 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/Pages.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/orders/Order.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/code/model/items/prices/CurrencyUnit.php';
 
 use Model\Orders\Order;
+use Model\Items\Prices\CurrencyUnit;
+use const Model\Orders\ProcessingOrderStatus;
 use function Control\Authorize;
 use function Control\GetBreadcrumb;
 use function Control\ShowError;
@@ -26,6 +29,10 @@ if (!Order::checkId($orderId, $userId)) {
     ShowError();
 }
 $order = new Order($orderId);
+if ($order->getLastStatus() != ProcessingOrderStatus) {
+    ShowError();
+}
+
 $breadcrumb = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
 $breadcrumb->addItems([new BreadcrumbItem(
     new TextComponent("Заказ №$orderId"),
@@ -36,5 +43,11 @@ $pageData['Title'] = "Оплата заказа №$orderId";
 $pageData['Breadcrumb'] = $breadcrumb;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
-<div></div>
+<select name="currency-unit-id">
+    <?php foreach (CurrencyUnit::getCurrencyUnits() as $currencyUnit) { ?>
+        <option value="<?= $currencyUnit->getId() ?>">
+            <?= $currencyUnit->getSymbol() ?>
+        </option>
+    <?php } ?>
+</select>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/footer.php'; ?>

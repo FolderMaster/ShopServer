@@ -33,7 +33,7 @@ class UserProfile
             $this->fullName = $row['FullName'];
             $this->avatar = new File($row['Avatar']);
         } else {
-            throw new Exception('Fail to load user profile ' . $this->userId);
+            throw new Exception("Fail to load user profile $this->userId");
         }
     }
 

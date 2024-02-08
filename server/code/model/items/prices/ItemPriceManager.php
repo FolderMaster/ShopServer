@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\Items;
+namespace Model\Items\Prices;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/control/DataBaseConnection.php';
 
