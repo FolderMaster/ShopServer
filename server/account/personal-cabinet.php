@@ -38,7 +38,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
             Смена профиля
         </div>
         <div class="accordion-content block">
-            <form>
+            <form ajax="true">
                 <fieldset>
                     <label for="name">ФИО:</label>
                     <input type="text" id="name" name="name" /><br />
@@ -56,7 +56,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
             Смена электронной почты
         </div>
         <div class="accordion-content block">
-            <form>
+            <form ajax="true">
                 <fieldset>
                     <label for="email">Новая электронная почта:</label>
                     <input type="email" id="email" name="email" /><br />
@@ -72,7 +72,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
             Смена номера телефона
         </div>
         <div class="accordion-content block">
-            <form>
+            <form ajax="true">
                 <fieldset>
                     <label for="phoneNumber">Новый номер телефона:</label>
                     <input type="tel" id="phoneNumber" name="phoneNumber" /><br />
@@ -88,7 +88,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
             Смена пароля
         </div>
         <div class="accordion-content block">
-            <form>
+            <form ajax="true">
                 <fieldset>
                     <label for="oldPassword">Старый пароль:</label>
                     <input type="password" id="oldPassword" name="oldPassword" /><br />

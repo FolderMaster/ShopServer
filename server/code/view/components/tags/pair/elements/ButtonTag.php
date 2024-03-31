@@ -14,6 +14,7 @@ class ButtonTag extends BaseElementTag
         string $method = '',
         string $action = '',
         string $successCode = '',
+        bool $ajax = true,
         array $attributes = []
     ) {
         if ($script !== '') {
@@ -27,6 +28,9 @@ class ButtonTag extends BaseElementTag
         }
         if ($successCode !== '') {
             $attributes['onsuccess'] = $successCode;
+        }
+        if ($ajax) {
+            $attributes['ajax'] = 'true';
         }
         parent::__construct('button', $attributes, $component);
     }

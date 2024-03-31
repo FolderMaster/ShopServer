@@ -16,6 +16,7 @@ class ButtonMenuItem extends BaseMenuItem
         string $method = '',
         string $action = '',
         string $successCode = '',
+        bool $ajax = true,
         array $buttonAttributes = [],
         array $attributes = [],
         array $items = [],
@@ -27,6 +28,7 @@ class ButtonMenuItem extends BaseMenuItem
             $method,
             $action,
             $successCode,
+            $ajax,
             $buttonAttributes
         ), $attributes, $items, $componentsAttributes);
     }

@@ -25,7 +25,7 @@ $pageData['Title'] = 'Корзина';
 $pageData['Breadcrumb'] = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
 require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
 ?>
-<form class="process-order-form form" action="/ajax/processOrderItemSets.php" method="get" enctype="multipart/form-data" onsuccess="location.reload()">
+<form class="process-order-form form" ajax="true" action="/ajax/processOrderItemSets.php" method="get" enctype="multipart/form-data" onsuccess="location.reload()">
     <div class="list-layout">
         <?php
         $totalPrice = 0;

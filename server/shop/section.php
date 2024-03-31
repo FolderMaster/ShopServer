@@ -36,7 +36,8 @@ $sectionId = (int)$id;
 if (!Section::checkId($sectionId)) {
     ShowError();
 }
-
+$name = $_GET['name'] ?? '';
+$characteristicValues = $_GET['characteristicValues'] ?? null;
 $breadcrumb = GetBreadcrumb($_SERVER['SCRIPT_NAME']);
 $childBranch = array_reverse(
     Section::getSectionsBranchByChildSectionId($sectionId)
@@ -58,7 +59,7 @@ $items = [];
 foreach ($parentBranch as $sectionId) {
     $items = array_merge(
         $items,
-        Item::getItemsBySectionId($sectionId)
+        Item::getItemsBySectionId($sectionId, $name, $characteristicValues)
     );
 }
 if (isset($pageData['UserId'])) {
@@ -77,61 +78,68 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/code/view/includes/header.php';
             } ?>
         </div>
     </div>
-<?php }
-if (count($items) > 0) { ?>
-    <form>
-        <div class="item-header highlighted block">
-            <button onclick="$('.search-panel').toggle();">
-                <img class="small-icon" src="/resources/images/show.png" />
+<?php } ?>
+<form method="get" action="/shop/section.php">
+    <input name="id" value="<?= $sectionId ?>" type="hidden" />
+    <div class="item-header highlighted block">
+        <button onclick="$('.search-panel').toggle();" type="button">
+            <img class="small-icon" src="/resources/images/show.png" />
+        </button>
+        <button onclick="$('.list-layout').toggleClass('table-layout');" type="button">
+            <img class="small-icon" src="/resources/images/change.png" />
+        </button>
+        <div class="right-float">
+            <input type="search" name="name" value="<?= $name ?>" />
+            <button button="sumbit">
+                <img class="small-icon" src="/resources/images/search.png" />
             </button>
-            <button onclick="$('.list-layout').toggleClass('table-layout');">
-                <img class="small-icon" src="/resources/images/change.png" />
-            </button>
-            <div class="right-float">
-                <input type="search" />
-                <button>
-                    <img class="small-icon" src="/resources/images/search.png" />
-                </button>
-            </div>
         </div>
-        <div class="block search-panel">
-            <?php foreach ($childBranch as $branchSection) {
-                $characteristics = Characteristic::getCharacteristicsBySectionId($branchSection->getId());
-                if (count($characteristics) > 0) { ?>
-                    <fieldset class="table-layout">
-                        <legend><?= $branchSection->getName() ?></legend>
-                        <?php foreach ($characteristics as $characteristic) {
-                            $property = new Property($characteristic->getPropertyId());
-                            $type = '';
-                            switch ($property->getType()) {
-                                case 'Real':
-                                case 'Interger':
-                                    $type = 'number';
-                                    break;
-                                case 'Date':
-                                    $type = 'date';
-                                    break;
-                                case 'String':
-                                    $type = 'text';
-                                    break;
-                            }
-                            $units = $property->getUnits();
+    </div>
+    <div class="block search-panel">
+        <?php foreach ($childBranch as $branchSection) {
+            $characteristics = Characteristic::getCharacteristicsBySectionId($branchSection->getId());
+            if (count($characteristics) > 0) { ?>
+                <fieldset class="table-layout">
+                    <legend><?= $branchSection->getName() ?></legend>
+                    <?php foreach ($characteristics as $characteristic) {
+                        $property = new Property($characteristic->getPropertyId());
+                        $type = '';
+                        switch ($property->getType()) {
+                            case 'Real':
+                            case 'Interger':
+                                $type = 'number';
+                                break;
+                            case 'Date':
+                                $type = 'date';
+                                break;
+                            case 'String':
+                                $type = 'text';
+                                break;
+                        }
+                        $units = $property->getUnits();
+                        $characteristicId = $characteristic->getId();
+                    ?>
+                        <label><?= $characteristic->getName() ?></label>
+                        <input name="characteristicValues[<?= $characteristicId ?>][value]" type="<?= $type ?>" value="<?= $characteristicValues[$characteristicId]['value'] ?? null ?>" />
+                        <?php if (count($units) > 0) {
+                            $selectedUnitId = $characteristicValues[$characteristicId]['unit'] ?? null;
                         ?>
-                            <label><?= $characteristic->getName() ?></label>
-                            <input name="<?= $characteristic->getId() ?>" type="<?= $type ?>" />
-                            <?php if (count($units) > 0) { ?>
-                                <select>
-                                    <?php foreach ($units as $unit) { ?>
-                                        <option value="<?= $unit->getId() ?>"><?= $unit->getName() ?></option>
-                                    <?php } ?>
-                                </select>
-                        <?php }
-                        } ?>
-                    </fieldset>
-            <?php }
-            } ?>
-        </div>
-    </form>
+                            <select name="characteristicValues[<?= $characteristicId ?>][unit]">
+                                <option disabled <?= $selectedUnitId ? '' : 'selected' ?>>null</option>
+                                <?php foreach ($units as $unit) {
+                                    $unitId = $unit->getId();
+                                ?>
+                                    <option value="<?= $unitId ?>" <?= $selectedUnitId == $unitId ? 'selected' : '' ?>><?= $unit->getName() ?></option>
+                                <?php } ?>
+                            </select>
+                    <?php }
+                    } ?>
+                </fieldset>
+        <?php }
+        } ?>
+    </div>
+</form>
+<?php if (count($items) > 0) { ?>
     <div class="item-content block list-layout item-grids">
         <?php foreach ($items as $item) {
             $itemId = $item->getId();
@@ -142,8 +150,7 @@ if (count($items) > 0) { ?>
                 if (isset($userId)) {
                     $isInFavorites = FavoritesManager::checkItem($userId, $itemId);
                     $cartCount = CartManager::checkItemSet($userId, $itemId);
-                }
-        ?>
+                } ?>
                 <?= (new ItemComponent(
                     $item,
                     ItemPriceManager::getItemPrice($itemId, 1),

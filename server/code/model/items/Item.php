@@ -76,11 +76,39 @@ class Item
         return $statement->rowCount() > 0;
     }
 
-    public static function getItemsBySectionId(int $sectionId): array
-    {
-        $result = DataBaseConnection->prepare('SELECT Id FROM Items 
-        WHERE SectionId = :sectionId');
+    public static function getItemsBySectionId(
+        int $sectionId,
+        ?string $name = null,
+        ?array $characteristicValues = null
+    ): array {
+        $command = 'SELECT Id FROM Items WHERE SectionId = :sectionId';
+        if ($name != null && $name != '') {
+            $command .= ' AND Name LIKE :name';
+        }
+        if ($characteristicValues != null) {
+            foreach ($characteristicValues as $characteristicId => $characteristicValue) {
+                if ($characteristicValue['unit'] && $characteristicValue['value']) {
+                    $command .= " AND Id IN (
+                        SELECT ItemId FROM ItemCharacteristics, Units
+                        WHERE CharacteristicId = :characteristicId$characteristicId AND Units.Id = :unitId$characteristicId
+                        AND CAST(Value AS REAL) * Coefficient = :value$characteristicId)";
+                }
+            }
+        }
+        $result =  DataBaseConnection->prepare($command);
         $result->bindValue(':sectionId', $sectionId);
+        if ($name != null && $name != '') {
+            $result->bindValue(':name', $name);
+        }
+        if ($characteristicValues != null) {
+            foreach ($characteristicValues as $characteristicId => $characteristicValue) {
+                if ($characteristicValue['unit'] && $characteristicValue['value']) {
+                    $result->bindValue(":characteristicId$characteristicId", $characteristicId);
+                    $result->bindValue(":unitId$characteristicId", $characteristicValue['unit']);
+                    $result->bindValue(":value$characteristicId", $characteristicValue['value']);
+                }
+            }
+        }
         $result->execute();
         $items = [];
         while ($row = $result->fetch()) {

@@ -74,49 +74,53 @@ function createModalWindow(html) {
 }
 
 function submitFormEvent(e) {
-  e.preventDefault();
+  var ajax = $(this).attr("ajax");
 
-  var formMethod = $(this).attr("method");
-  var formAction = $(this).attr("action");
-  var successCode = $(this).attr("onsuccess");
-  var formData = new FormData(this);
+  if (ajax) {
+    e.preventDefault();
 
-  switch (formMethod) {
-    case "get":
-      var query = new URLSearchParams(formData.entries());
-      if (query.size > 0) {
-        formAction += "?" + query.toString();
-      }
-      $.ajax({
-        type: formMethod,
-        url: formAction,
-        processData: false,
-        contentType: false,
-        success: function (data, status, xhr) {
-          displaySuccessMessage(data, status, xhr);
-          if (successCode) {
-            eval(successCode);
-          }
-        },
-        error: displayErrorMessage,
-      });
-      break;
-    case "post":
-      $.ajax({
-        type: formMethod,
-        url: formAction,
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (data, status, xhr) {
-          displaySuccessMessage(data, status, xhr);
-          if (successCode) {
-            eval(successCode);
-          }
-        },
-        error: displayErrorMessage,
-      });
-      break;
+    var formMethod = $(this).attr("method");
+    var formAction = $(this).attr("action");
+    var successCode = $(this).attr("onsuccess");
+    var formData = new FormData(this);
+
+    switch (formMethod) {
+      case "get":
+        var query = new URLSearchParams(formData.entries());
+        if (query.size > 0) {
+          formAction += "?" + query.toString();
+        }
+        $.ajax({
+          type: formMethod,
+          url: formAction,
+          processData: false,
+          contentType: false,
+          success: function (data, status, xhr) {
+            displaySuccessMessage(data, status, xhr);
+            if (successCode) {
+              eval(successCode);
+            }
+          },
+          error: displayErrorMessage,
+        });
+        break;
+      case "post":
+        $.ajax({
+          type: formMethod,
+          url: formAction,
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (data, status, xhr) {
+            displaySuccessMessage(data, status, xhr);
+            if (successCode) {
+              eval(successCode);
+            }
+          },
+          error: displayErrorMessage,
+        });
+        break;
+    }
   }
 }
 
